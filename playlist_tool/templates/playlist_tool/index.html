@@ -5,6 +5,10 @@
     <div class="text-center mt-5">
         <h1>Welcome to Spotify Playlist Tool</h1>
         <p class="lead">Create and analyze playlists with ease!</p>
-        <a href="" class="btn btn-success btn-lg mt-3">Get Started</a>
+        {% if request.session.access_token %}
+            <a href="{% url 'playlist_tool:index' %}" class="btn btn-primary btn-lg mt-3">View Your Playlists</a>
+        {% else %}
+            <a href="{% url 'playlist_tool:spotify_login' %}" class="btn btn-success btn-lg mt-3">Get Started</a>
+        {% endif %}
     </div>
 {% endblock %}
