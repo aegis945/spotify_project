@@ -8,7 +8,8 @@ import base64
 import requests
 
 def index(request):
-    return render(request, "playlist_tool/index.html")
+    access_token = request.session.get("access_token")
+    return render(request, "playlist_tool/index.html", {"access_token": access_token})
 
 def spotify_login(request):
     auth_url = "https://accounts.spotify.com/authorize?"
@@ -68,8 +69,6 @@ def spotify_callback(request):
         request.session["access_token"] = access_token
         request.session["refresh_token"] = refresh_token
         request.session["expires_in"] = expires_in
-        
-        del request.session['spotify_csrf_token']
         
         return redirect("playlist_tool:index")
     else:
