@@ -25,7 +25,7 @@
                     {% endif %}
                     {% if request.session.access_token %}
                         <li class="nav-item">
-                            <a class="nav-link" href="">Profile</a>
+                            <a class="nav-link" href="{% url 'playlist_tool:profile' %}">Profile</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-danger" href="{% url 'playlist_tool:spotify_logout' %}">Logout</a>

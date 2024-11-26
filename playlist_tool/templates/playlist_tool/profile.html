@@ -1,0 +1,13 @@
+{% extends "playlist_tool/layout.html" %}
+{% block title %}Profile | Spotify Playlist Tool{% endblock %}
+
+{% block body %}
+<div class="container text-center mt-5">
+    <h1>Welcome, {{ profile_data.display_name }}</h1>
+    {% if profile_data.images %}
+        <img src="{{ profile_data.images.0.url }}" alt="Profile Picture" class="img-thumbnail rounded-circle my-2" width="200">
+    {% endif %}
+    <p><span class="fw-bold">Email:</span> {{ profile_data.email }}</p>
+    <p><span class="fw-bold">Followers:</span> {{ profile_data.followers.total }}</p>
+</div>
+{% endblock %}
