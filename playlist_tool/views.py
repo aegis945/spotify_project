@@ -88,7 +88,7 @@ def profile(request):
     response = requests.get(profile_url, headers=headers)
     
     if response.status_code != 200:
-        return JsonResponse({"error": "Failed to fetch the profile."}, status=response.status_code)
+        return redirect("playlist_tool:spotify_login")
     
     profile_data = response.json()
     return render(request, "playlist_tool/profile.html", {"profile_data": profile_data})
