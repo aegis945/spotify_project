@@ -23,7 +23,7 @@ class Playlist(models.Model):
 
 class Track(models.Model):
     playlist = models.ForeignKey(Playlist, on_delete=models.CASCADE, related_name="tracks")
-    track_id = models.CharField(max_length=100, unique=True)
+    track_id = models.CharField(max_length=100)
     name = models.CharField(max_length=255)
     artist = models.CharField(max_length=255)
     danceability = models.FloatField(null=True, blank=True)
@@ -31,6 +31,9 @@ class Track(models.Model):
     instrumentalness = models.FloatField(null=True, blank=True)
     tempo = models.FloatField(null=True, blank=True)
     valence = models.FloatField(null=True, blank=True)
+    
+    class Meta:
+        unique_together = ("playlist", "track_id")
     
     def __str__(self) -> str:
         return f"{self.name} by {self.artist}"
