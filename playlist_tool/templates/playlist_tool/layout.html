@@ -20,12 +20,12 @@
                 <ul class="navbar-nav ms-auto">
                     {% if not request.session.access_token %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'playlist_tool:spotify_login' %}">Login</a>
+                            <a class="nav-link text-white" href="{% url 'playlist_tool:spotify_login' %}">Login</a>
                         </li>
                     {% endif %}
                     {% if request.session.access_token %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'playlist_tool:profile' %}">Profile</a>
+                            <a class="nav-link text-white" href="{% url 'playlist_tool:profile' %}">Profile</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-danger" href="{% url 'playlist_tool:spotify_logout' %}">Logout</a>

@@ -90,5 +90,17 @@ def profile(request):
     if response.status_code != 200:
         return redirect("playlist_tool:spotify_login")
     
+    playlists_url = "https://api.spotify.com/v1/me/playlists"
+    playlists_response = requests.get(playlists_url, headers=headers)
+    
+    if playlists_response.status_code != 200:
+        return redirect("playlist_tool:spotify_login")
+    
+    playlists_data = playlists_response.json().get("items", [])
+    playlists_data = sorted(playlists_data, key=lambda playlist: playlist["name"].lower())
+    
     profile_data = response.json()
-    return render(request, "playlist_tool/profile.html", {"profile_data": profile_data})
+    return render(request, "playlist_tool/profile.html", {
+        "profile_data": profile_data,
+        "playlists_data": playlists_data
+    })
