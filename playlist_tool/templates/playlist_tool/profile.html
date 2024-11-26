@@ -9,19 +9,19 @@
     {% endif %}
     <p><span class="fw-bold">Email:</span> {{ profile_data.email }}</p>
     <p><span class="fw-bold">Followers:</span> {{ profile_data.followers.total }}</p>
-
-    <h2 class="mt-5">Your Playlists</h2>
+    <hr class="mt-4">
+    <h2>Your Playlists</h2>
     <div class="row row-cols-1 row-cols-md-3 g-4 mt-3">
         {% for playlist in playlists_data %}
         <div class="col">
             <div class="card h-100 bg-dark">
                 {% if playlist.images %}
-                    <img src="{{ playlist.images.0.url }}" class="card-img-top" alt="Playlist Cover" style="max-height: 347px">
+                    <img src="{{ playlist.images.0.url }}" class="card-img-top p-3" alt="Playlist Cover" style="max-height: 347px">
                 {% endif %}
                 <div class="card-body">
                     <h5 class="card-title text-white">{{ playlist.name }}</h5>
                     <p class="card-text text-white">Tracks: {{ playlist.tracks.total }}</p>
-                    <a href="" class="btn btn-success text-white">View Tracks</a>
+                    <a href="" class="btn btn-success text-white">Analyse Playlist</a>
                 </div>
             </div>
         </div>

@@ -1,8 +1,9 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.http import JsonResponse
 from django.conf import settings
 from django.middleware.csrf import get_token
 from django.utils.http import urlencode
+from .models import SpotifyProfile, Playlist, Track
 
 import base64
 import requests
@@ -90,6 +91,16 @@ def profile(request):
     if response.status_code != 200:
         return redirect("playlist_tool:spotify_login")
     
+    profile_data = response.json()
+    spotify_profile, created = SpotifyProfile.objects.update_or_create(
+        spotify_id=profile_data["id"],
+        defaults={
+            "display_name": profile_data.get("display_name", "Anonymous"),
+            "image_url": profile_data["images"][0]["url"] if profile_data.get("images") else None,
+            "followers": profile_data.get("followers", {}).get("total", 0),
+        }
+    )
+    
     playlists_url = "https://api.spotify.com/v1/me/playlists"
     playlists_response = requests.get(playlists_url, headers=headers)
     
@@ -99,7 +110,18 @@ def profile(request):
     playlists_data = playlists_response.json().get("items", [])
     playlists_data = sorted(playlists_data, key=lambda playlist: playlist["name"].lower())
     
-    profile_data = response.json()
+    for playlist in playlists_data:
+        Playlist.objects.update_or_create(
+            spotify_profile=spotify_profile,
+            playlist_id=playlist["id"],
+            defaults={
+                "name": playlist["name"],
+                "image_url": playlist["images"][0]["url"] if playlist.get("images") else None,
+                "track_count": playlist["tracks"]["total"],
+                "is_public": playlist["public"],
+            }
+        )
+    
     return render(request, "playlist_tool/profile.html", {
         "profile_data": profile_data,
         "playlists_data": playlists_data
