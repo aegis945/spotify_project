@@ -21,7 +21,7 @@
                 <div class="card-body">
                     <h5 class="card-title text-white">{{ playlist.name }}</h5>
                     <p class="card-text text-white">Tracks: {{ playlist.tracks.total }}</p>
-                    <a href="" class="btn btn-success text-white">Analyse Playlist</a>
+                    <a href="{% url 'playlist_tool:fetch_tracks' playlist_id=playlist.id %}" class="btn btn-success text-white">Analyse Playlist</a>
                 </div>
             </div>
         </div>

@@ -126,3 +126,33 @@ def profile(request):
         "profile_data": profile_data,
         "playlists_data": playlists_data
     })
+
+def fetch_tracks(request, playlist_id):
+    access_token = request.session.get("access_token")
+    if not access_token:
+        return redirect("playlist_tool:spotify_login")
+    
+    playlist = get_object_or_404(Playlist, playlist_id=playlist_id)
+    tracks_url = f"https://api.spotify.com/v1/playlists/{playlist_id}/tracks"
+    headers = {"Authorization": f"Bearer {access_token}"}
+    
+    while tracks_url:
+        response = requests.get(tracks_url, headers=headers)
+        if response.status_code != 200:
+            return JsonResponse({"error": "Failed to fetch tracks."}, status=400)
+        
+        tracks_data = response.json()
+        for track in tracks_data["items"]:
+            track_info = track["track"]
+            Track.objects.update_or_create(
+                playlist=playlist,
+                track_id=track_info["id"],
+                defaults={
+                    "name": track_info["name"],
+                    "artist": ", ".join(artist["name"] for artist in track_info["artists"]),
+                }
+            )
+        
+        tracks_url = tracks_data["next"]
+    
+    return redirect("playlist_tool:profile")
