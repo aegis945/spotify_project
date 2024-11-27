@@ -110,6 +110,8 @@ def profile(request):
     playlists_data = playlists_response.json().get("items", [])
         
     for playlist in playlists_data:
+        if playlist is None or 'id' not in playlist:
+            continue
         Playlist.objects.update_or_create(
             spotify_profile=spotify_profile,
             playlist_id=playlist["id"],
