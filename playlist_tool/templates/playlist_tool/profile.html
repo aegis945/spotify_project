@@ -15,13 +15,18 @@
         {% for playlist in playlists_data %}
         <div class="col">
             <div class="card h-100 bg-dark">
-                {% if playlist.images %}
-                    <img src="{{ playlist.images.0.url }}" class="card-img-top p-3" alt="Playlist Cover" style="max-height: 347px">
+                {% if playlist.image_url %}
+                    <img src="{{ playlist.image_url }}" class="card-img-top p-3" alt="Playlist Cover" style="max-height: 347px">
                 {% endif %}
                 <div class="card-body">
                     <h5 class="card-title text-white">{{ playlist.name }}</h5>
-                    <p class="card-text text-white">Tracks: {{ playlist.tracks.total }}</p>
-                    <a href="{% url 'playlist_tool:fetch_tracks' playlist_id=playlist.id %}" class="btn btn-success text-white">Analyse Playlist</a>
+                    <p class="card-text text-white">Tracks: {{ playlist.track_count }}</p>
+                    {% if playlist.analyzed %}
+                        <a href="{% url 'playlist_tool:fetch_tracks' playlist_id=playlist.playlist_id %}" class="btn btn-success text-white mx-2">Analyse Again</a>
+                        <a href="{% url 'playlist_tool:view_statistics' playlist_id=playlist.playlist_id %}" class="btn btn-primary text-white mx-2">View Statistics</a>
+                    {% else %}
+                        <a href="{% url 'playlist_tool:fetch_tracks' playlist_id=playlist.playlist_id %}" class="btn btn-success text-white">Analyse Playlist</a>
+                    {% endif %}
                 </div>
             </div>
         </div>

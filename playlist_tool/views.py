@@ -108,8 +108,7 @@ def profile(request):
         return redirect("playlist_tool:spotify_login")
     
     playlists_data = playlists_response.json().get("items", [])
-    playlists_data = sorted(playlists_data, key=lambda playlist: playlist["name"].lower())
-    
+        
     for playlist in playlists_data:
         Playlist.objects.update_or_create(
             spotify_profile=spotify_profile,
@@ -121,6 +120,8 @@ def profile(request):
                 "is_public": playlist["public"],
             }
         )
+
+    playlists_data = Playlist.objects.filter(spotify_profile=spotify_profile).all()
     
     return render(request, "playlist_tool/profile.html", {
         "profile_data": profile_data,
@@ -144,7 +145,7 @@ def fetch_tracks(request, playlist_id):
         tracks_data = response.json()
         for track in tracks_data["items"]:
             track_info = track["track"]
-            Track.objects.update_or_create(
+            track_obj, created = Track.objects.update_or_create(
                 playlist=playlist,
                 track_id=track_info["id"],
                 defaults={
@@ -152,7 +153,27 @@ def fetch_tracks(request, playlist_id):
                     "artist": ", ".join(artist["name"] for artist in track_info["artists"]),
                 }
             )
+            
+            audio_features_url = f"https://api.spotify.com/v1/audio-features/{track_info["id"]}"
+            audio_response = requests.get(audio_features_url, headers=headers)
+            
+            if audio_response.status_code == 200:
+                audio_features = audio_response.json()
+                track_obj.danceability = audio_features.get("danceability")
+                track_obj.energy = audio_features.get("energy")
+                track_obj.tempo = audio_features.get("tempo")
+                track_obj.valence = audio_features.get("valence")
+                track_obj.instrumentalness = audio_features.get("instrumentalness")
+                track_obj.save()
         
         tracks_url = tracks_data["next"]
+        
+    playlist.analyzed = True
+    playlist.save()
     
     return redirect("playlist_tool:profile")
+
+def view_statistics(request, playlist_id):
+    playlist = get_object_or_404(Playlist, playlist_id=playlist_id)
+    tracks = playlist.tracks.all()
+    return render(request, "playlist_tool/statistics.html", {"playlist": playlist, "tracks": tracks})
