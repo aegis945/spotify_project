@@ -10,5 +10,5 @@ urlpatterns = [
     path("callback", views.spotify_callback, name="spotify_callback"),
     path("profile/", views.profile, name="profile"),
     path("fetch_tracks/<str:playlist_id>/", views.fetch_tracks, name="fetch_tracks"),
-
+    path("view_statistics/<str:playlist_id>/", views.view_statistics, name="view_statistics"),
 ]
