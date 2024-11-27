@@ -16,6 +16,10 @@ class Playlist(models.Model):
     image_url = models.URLField(blank=True, null=True)
     track_count = models.IntegerField(default=0)
     is_public = models.BooleanField(default=True)
+    analyzed = models.BooleanField(default=False)
+    
+    class Meta:
+        ordering = ["name"]
     
     def __str__(self) -> str:
         return self.name
@@ -33,6 +37,7 @@ class Track(models.Model):
     valence = models.FloatField(null=True, blank=True)
     
     class Meta:
+        ordering = ["name"]
         unique_together = ("playlist", "track_id")
     
     def __str__(self) -> str:
