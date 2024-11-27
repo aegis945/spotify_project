@@ -1,3 +1,6 @@
 from django.contrib import admin
+from .models import SpotifyProfile, Playlist, Track
 
-# Register your models here.
+admin.site.register(SpotifyProfile)
+admin.site.register(Playlist)
+admin.site.register(Track)
