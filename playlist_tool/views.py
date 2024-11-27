@@ -19,7 +19,7 @@ def spotify_login(request):
     params = {
         "response_type": "code",
         "client_id": settings.SPOTIFY_CLIENT_ID,
-        "scope": "user-read-private user-read-email playlist-read-private",
+        "scope": "user-read-private user-read-email playlist-read-private user-top-read",
         "redirect_uri": settings.SPOTIFY_REDIRECT_URI,
         "state": csrf_token,
     }
@@ -179,3 +179,28 @@ def view_statistics(request, playlist_id):
     playlist = get_object_or_404(Playlist, playlist_id=playlist_id)
     tracks = playlist.tracks.all()
     return render(request, "playlist_tool/statistics.html", {"playlist": playlist, "tracks": tracks})
+
+def fetch_top_tracks(request):
+    access_token = request.session.get("access_token")
+    if not access_token:
+        return redirect("playlist_tool:spotify_login")
+    
+    time_range = request.GET.get("time_range", "medium_term")
+    limit = request.GET.get("limit", 50)
+    
+    top_tracks_url = f"https://api.spotify.com/v1/me/top/tracks"
+    headers = {"Authorization": f"Bearer {access_token}"}
+    params = {
+        "time_range": time_range,
+        "limit": limit,
+    }
+
+    response = requests.get(top_tracks_url, headers=headers, params=params)
+    
+    if response.status_code == 200:
+        return JsonResponse(response.json())
+    else:
+        return JsonResponse(response.json(), status=response.status_code)
+    
+def top_tracks(request):
+    return render(request, "playlist_tool/top_tracks.html")

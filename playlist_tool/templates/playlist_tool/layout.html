@@ -25,6 +25,9 @@
                     {% endif %}
                     {% if request.session.access_token %}
                         <li class="nav-item">
+                            <a class="nav-link text-white" href="{% url 'playlist_tool:top_tracks' %}">Your Top 50 Tracks</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link text-white" href="{% url 'playlist_tool:profile' %}">Profile</a>
                         </li>
                         <li class="nav-item">

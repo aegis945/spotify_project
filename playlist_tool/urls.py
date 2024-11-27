@@ -11,4 +11,6 @@ urlpatterns = [
     path("profile/", views.profile, name="profile"),
     path("fetch_tracks/<str:playlist_id>/", views.fetch_tracks, name="fetch_tracks"),
     path("view_statistics/<str:playlist_id>/", views.view_statistics, name="view_statistics"),
+    path('fetch-top-tracks/', views.fetch_top_tracks, name='fetch_top_tracks'),
+    path("top-tracks/", views.top_tracks, name="top_tracks"),
 ]
