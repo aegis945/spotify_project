@@ -25,7 +25,11 @@
                     {% else %}
                         <td>{{ track.name }}</td>
                     {% endif %}
-                    <td>{{ track.artist }}</td>
+                    {% if track.artist_url %}
+                        <td><a href="{{ track.artist_url}}" target="_blank">{{ track.artist }}</a></td>
+                    {% else %}
+                        <td>{{ track.artist }}</td>
+                    {% endif %}
                     <td>{{ track.danceability }}</td>
                     <td>{{ track.energy }}</td>
                     <td>{{ track.tempo }}</td>

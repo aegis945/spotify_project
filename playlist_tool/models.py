@@ -31,6 +31,7 @@ class Track(models.Model):
     track_id = models.CharField(max_length=100)
     name = models.CharField(max_length=255)
     artist = models.CharField(max_length=255)
+    artist_url = models.URLField(max_length=500, null=True, blank=True)
     spotify_url = models.URLField(max_length=500, null=True, blank=True)
     danceability = models.FloatField(null=True, blank=True)
     energy = models.FloatField(null=True, blank=True)

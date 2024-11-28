@@ -154,6 +154,7 @@ def fetch_tracks(request, playlist_id):
                 defaults={
                     "name": track_info["name"],
                     "artist": ", ".join(artist["name"] for artist in track_info["artists"]),
+                    "artist_url": track_info["artists"][0]["external_urls"]["spotify"],
                     "spotify_url": track_info["external_urls"]["spotify"],
                 }
             )
