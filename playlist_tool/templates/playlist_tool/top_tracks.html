@@ -1,5 +1,5 @@
 {% extends "playlist_tool/layout.html" %}
-
+{% load static %}
 {% block title %}Top 50 Tracks{% endblock %}
 
 {% block body %}
@@ -13,4 +13,7 @@
     <div id="tracks-container" class="mt-4">
     </div>
 </div>
+    {% block script %}
+        <script src="{% static 'playlist_tool/app.js' %}"></script>
+    {% endblock %}
 {% endblock %}
