@@ -118,6 +118,7 @@ def profile(request):
             defaults={
                 "name": playlist["name"],
                 "image_url": playlist["images"][0]["url"] if playlist.get("images") else None,
+                "spotify_url": playlist["external_urls"]["spotify"],
                 "track_count": playlist["tracks"]["total"],
                 "is_public": playlist["public"],
             }
@@ -153,6 +154,7 @@ def fetch_tracks(request, playlist_id):
                 defaults={
                     "name": track_info["name"],
                     "artist": ", ".join(artist["name"] for artist in track_info["artists"]),
+                    "spotify_url": track_info["external_urls"]["spotify"],
                 }
             )
             

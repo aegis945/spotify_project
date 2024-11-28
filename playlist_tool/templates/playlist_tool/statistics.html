@@ -20,7 +20,11 @@
             <tbody>
                 {% for track in tracks %}
                 <tr>
-                    <td>{{ track.name }}</td>
+                    {% if track.spotify_url %}
+                        <td><a href="{{ track.spotify_url }}" target="_blank">{{ track.name }}</a></td>
+                    {% else %}
+                        <td>{{ track.name }}</td>
+                    {% endif %}
                     <td>{{ track.artist }}</td>
                     <td>{{ track.danceability }}</td>
                     <td>{{ track.energy }}</td>

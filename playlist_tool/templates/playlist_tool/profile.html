@@ -16,7 +16,11 @@
         <div class="col">
             <div class="card h-100 bg-dark">
                 {% if playlist.image_url %}
-                    <img src="{{ playlist.image_url }}" class="card-img-top p-3" alt="Playlist Cover" style="max-height: 347px">
+                    {% if playlist.spotify_url %}
+                        <a href="{{ playlist.spotify_url }}" target="_blank"><img src="{{ playlist.image_url }}" class="card-img-top p-3" alt="Playlist Cover" style="max-height: 347px"></a>
+                    {% else %}
+                        <img src="{{ playlist.image_url }}" class="card-img-top p-3" alt="Playlist Cover" style="max-height: 347px">
+                    {% endif %}
                 {% endif %}
                 <div class="card-body">
                     <h5 class="card-title text-white">{{ playlist.name }}</h5>
