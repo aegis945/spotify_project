@@ -25,13 +25,15 @@ class Playlist(models.Model):
     def __str__(self) -> str:
         return self.name
     
+class Artist(models.Model):
+    name = models.CharField(max_length=255)
+    artist_url = models.URLField(max_length=250, null=True, blank=True)
 
 class Track(models.Model):
     playlist = models.ForeignKey(Playlist, on_delete=models.CASCADE, related_name="tracks")
     track_id = models.CharField(max_length=100)
     name = models.CharField(max_length=255)
-    artist = models.CharField(max_length=255)
-    artist_url = models.URLField(max_length=500, null=True, blank=True)
+    artists = models.ManyToManyField(Artist, related_name="tracks")
     spotify_url = models.URLField(max_length=500, null=True, blank=True)
     danceability = models.FloatField(null=True, blank=True)
     energy = models.FloatField(null=True, blank=True)
@@ -44,4 +46,4 @@ class Track(models.Model):
         unique_together = ("playlist", "track_id")
     
     def __str__(self) -> str:
-        return f"{self.name} by {self.artist}"
+        return f"{self.name} by {', '.join(artist.name for artist in self.artists.all())}"
