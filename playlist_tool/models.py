@@ -41,6 +41,7 @@ class Track(models.Model):
     name = models.CharField(max_length=255)
     artists = models.ManyToManyField(Artist, related_name="tracks")
     spotify_url = models.URLField(max_length=500, null=True, blank=True)
+    popularity = models.IntegerField(null=True, blank=True)
     danceability = models.FloatField(null=True, blank=True)
     energy = models.FloatField(null=True, blank=True)
     instrumentalness = models.FloatField(null=True, blank=True)

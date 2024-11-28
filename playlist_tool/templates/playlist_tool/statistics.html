@@ -15,6 +15,7 @@
                     <th>Energy</th>
                     <th>Tempo</th>
                     <th>Valence</th>
+                    <th>Popularity (0-100)</th>
                 </tr>
             </thead>
             <tbody>
@@ -34,6 +35,7 @@
                     <td>{{ track.energy }}</td>
                     <td>{{ track.tempo }}</td>
                     <td>{{ track.valence }}</td>
+                    <td>{{ track.popularity }}</td>
                 </tr>
                 {% empty %}
                     <p>No tracks in the playlist.</p>
