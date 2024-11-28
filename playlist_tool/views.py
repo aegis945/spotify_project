@@ -140,6 +140,8 @@ def fetch_tracks(request, playlist_id):
     tracks_url = f"https://api.spotify.com/v1/playlists/{playlist_id}/tracks"
     headers = {"Authorization": f"Bearer {access_token}"}
     
+    current_track_ids = set()
+
     while tracks_url:
         response = requests.get(tracks_url, headers=headers)
         if response.status_code != 200:
@@ -148,6 +150,8 @@ def fetch_tracks(request, playlist_id):
         tracks_data = response.json()
         for track in tracks_data["items"]:
             track_info = track["track"]
+            current_track_ids.add(track_info["id"])
+            
             track_obj, created = Track.objects.update_or_create(
                 playlist=playlist,
                 track_id=track_info["id"],
@@ -173,10 +177,15 @@ def fetch_tracks(request, playlist_id):
         
         tracks_url = tracks_data["next"]
         
+    existing_tracks = set(Track.objects.filter(playlist=playlist).values_list('track_id', flat=True))
+    tracks_to_delete = existing_tracks - current_track_ids
+    if tracks_to_delete:
+        Track.objects.filter(playlist=playlist, track_id__in=tracks_to_delete).delete()
+    
     playlist.analyzed = True
     playlist.save()
     
-    return redirect("playlist_tool:profile")
+    return redirect("playlist_tool:view_statistics", playlist_id=playlist.playlist_id)
 
 def view_statistics(request, playlist_id):
     playlist = get_object_or_404(Playlist, playlist_id=playlist_id)
