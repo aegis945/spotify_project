@@ -21,13 +21,13 @@
                 {% for track in page_obj.object_list %}
                 <tr>
                     {% if track.spotify_url %}
-                        <td><a href="{{ track.spotify_url }}" target="_blank">{{ track.name }}</a></td>
+                        <td><a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{{ track.spotify_url }}" target="_blank">{{ track.name }}</a></td>
                     {% else %}
                         <td>{{ track.name }}</td>
                     {% endif %}
                     <td>
                         {% for artist in track.artists.all %}
-                            <a href="{{ artist.artist_url }}" target="_blank">{{ artist.name }}</a>{% if not forloop.last %}, {% endif %}
+                            <a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{{ artist.artist_url }}" target="_blank">{{ artist.name }}</a>{% if not forloop.last %}, {% endif %}
                         {% endfor %}
                     </td>
                     <td>{{ track.danceability }}</td>

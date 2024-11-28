@@ -20,18 +20,18 @@
                 <ul class="navbar-nav ms-auto">
                     {% if not request.session.access_token %}
                         <li class="nav-item">
-                            <a class="nav-link text-white" href="{% url 'playlist_tool:spotify_login' %}">Login</a>
+                            <a class="nav-link link-success link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{% url 'playlist_tool:spotify_login' %}">Login</a>
                         </li>
                     {% endif %}
                     {% if request.session.access_token %}
                         <li class="nav-item">
-                            <a class="nav-link text-white" href="{% url 'playlist_tool:top_tracks' %}">Your Top 50 Tracks</a>
+                            <a class="nav-link link-success link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{% url 'playlist_tool:top_tracks' %}">Your Top 50 Tracks</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white" href="{% url 'playlist_tool:profile' %}">Profile</a>
+                            <a class="nav-link link-success link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{% url 'playlist_tool:profile' %}">Profile</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-danger" href="{% url 'playlist_tool:spotify_logout' %}">Logout</a>
+                            <a class="nav-link link-danger link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{% url 'playlist_tool:spotify_logout' %}">Logout</a>
                         </li>
                     {% endif %}
                 </ul>
@@ -46,7 +46,7 @@
 
     <footer class="bg-dark text-center text-white py-3 mt-auto">
         <div class="container">
-            <p class="mb-0">&copy; 2024 Spotify Playlist Tool | Built with Django & Bootstrap</p>
+            <p class="mb-0 text-success">&copy; 2024 Spotify Playlist Tool | Built with Django & Bootstrap</p>
         </div>
     </footer>
     

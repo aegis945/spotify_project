@@ -68,13 +68,13 @@ function displayTracks(tracks) {
             <tr>
                 <td>${index + 1}</td>
                 <td>
-                    <a href="${track.external_urls.spotify}" target="_blank">${track.name}</a>
+                    <a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="${track.external_urls.spotify}" target="_blank">${track.name}</a>
                 </td>
                 <td>
-                    ${track.artists.map(artist => `<a href="${artist.external_urls.spotify}" target="_blank">${artist.name}</a>`).join(", ")}
+                    ${track.artists.map(artist => `<a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="${artist.external_urls.spotify}" target="_blank">${artist.name}</a>`).join(", ")}
                 </td>
                 <td>
-                    <a href="${track.album.external_urls.spotify}" target="_blank">${track.album.name}</a>
+                    <a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="${track.album.external_urls.spotify}" target="_blank">${track.album.name}</a>
                 </td>
             </tr>
         `;
