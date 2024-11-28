@@ -4,7 +4,7 @@ from django.conf import settings
 from django.core.paginator import Paginator
 from django.middleware.csrf import get_token
 from django.utils.http import urlencode
-from .models import SpotifyProfile, Playlist, Track
+from .models import Artist, SpotifyProfile, Playlist, Track
 
 import base64
 import requests
@@ -153,6 +153,14 @@ def fetch_tracks(request, playlist_id):
             track_info = track["track"]
             current_track_ids.add(track_info["id"])
             
+            artists = []
+            for artist_data in track_info["artists"]:
+                artist, created = Artist.objects.update_or_create(
+                    name=artist_data["name"],
+                    artist_url=artist_data["external_urls"]["spotify"]
+                )
+                artists.append(artist)
+                
             track_obj, created = Track.objects.update_or_create(
                 playlist=playlist,
                 track_id=track_info["id"],
@@ -163,6 +171,9 @@ def fetch_tracks(request, playlist_id):
                     "spotify_url": track_info["external_urls"]["spotify"],
                 }
             )
+            
+            track_obj.artists.set(artists)
+            track_obj.save()
             
             audio_features_url = f"https://api.spotify.com/v1/audio-features/{track_info["id"]}"
             audio_response = requests.get(audio_features_url, headers=headers)
