@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http import JsonResponse
 from django.conf import settings
+from django.core.paginator import Paginator
 from django.middleware.csrf import get_token
 from django.utils.http import urlencode
 from .models import SpotifyProfile, Playlist, Track
@@ -190,7 +191,14 @@ def fetch_tracks(request, playlist_id):
 def view_statistics(request, playlist_id):
     playlist = get_object_or_404(Playlist, playlist_id=playlist_id)
     tracks = playlist.tracks.all()
-    return render(request, "playlist_tool/statistics.html", {"playlist": playlist, "tracks": tracks})
+    paginator = Paginator(tracks, 50)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    
+    return render(request, "playlist_tool/statistics.html", {
+        "playlist": playlist, 
+        "page_obj": page_obj
+    })
 
 def fetch_top_tracks(request):
     access_token = request.session.get("access_token")
