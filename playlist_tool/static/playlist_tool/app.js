@@ -51,7 +51,7 @@ function loadTopTracks(timeRange) {
 function displayTracks(tracks) {
     const container = document.querySelector("#tracks-container");
     let html = `
-        <table class="table table-striped">
+        <table class="table table-striped align-middle">
             <thead>
                 <tr>
                     <th>Rank</th>

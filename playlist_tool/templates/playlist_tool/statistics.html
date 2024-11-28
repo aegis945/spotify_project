@@ -3,31 +3,33 @@
 {% block title %}Statistics | {{ playlist.name }}{% endblock %}
 
 {% block body %}
-<div class="container mt-5">
+<div class="mt-5">
     <h1>{{ playlist.name }} - Statistics</h1>
-    <table class="table table-striped mt-4">
-        <thead>
-            <tr>
-                <th>Track</th>
-                <th>Artist</th>
-                <th>Danceability</th>
-                <th>Energy</th>
-                <th>Tempo</th>
-                <th>Valence</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for track in tracks %}
-            <tr>
-                <td>{{ track.name }}</td>
-                <td>{{ track.artist }}</td>
-                <td>{{ track.danceability }}</td>
-                <td>{{ track.energy }}</td>
-                <td>{{ track.tempo }}</td>
-                <td>{{ track.valence }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="table-responsive">
+        <table class="table table-striped align-middle mt-4">
+            <thead>
+                <tr>
+                    <th>Track</th>
+                    <th>Artist</th>
+                    <th>Danceability</th>
+                    <th>Energy</th>
+                    <th>Tempo</th>
+                    <th>Valence</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for track in tracks %}
+                <tr>
+                    <td>{{ track.name }}</td>
+                    <td>{{ track.artist }}</td>
+                    <td>{{ track.danceability }}</td>
+                    <td>{{ track.energy }}</td>
+                    <td>{{ track.tempo }}</td>
+                    <td>{{ track.valence }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 {% endblock %}
