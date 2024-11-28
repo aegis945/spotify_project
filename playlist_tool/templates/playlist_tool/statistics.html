@@ -11,11 +11,11 @@
                 <tr>
                     <th>Track</th>
                     <th>Artist</th>
-                    <th>Danceability</th>
-                    <th>Energy</th>
-                    <th>Tempo</th>
-                    <th>Valence</th>
-                    <th>Popularity (0-100)</th>
+                    <th class="text-center">Popularity<br> (0-100)</th>
+                    <th class="text-center">Danceability</th>
+                    <th class="text-center">Energy</th>
+                    <th class="text-center">Tempo</th>
+                    <th class="text-center">Valence</th>
                 </tr>
             </thead>
             <tbody>
@@ -31,11 +31,11 @@
                             <a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{{ artist.artist_url }}" target="_blank">{{ artist.name }}</a>{% if not forloop.last %}, {% endif %}
                         {% endfor %}
                     </td>
-                    <td>{{ track.danceability }}</td>
-                    <td>{{ track.energy }}</td>
-                    <td>{{ track.tempo }}</td>
-                    <td>{{ track.valence }}</td>
-                    <td>{{ track.popularity }}</td>
+                    <td class="text-center">{{ track.popularity }}</td>
+                    <td class="text-center">{{ track.danceability }}</td>
+                    <td class="text-center">{{ track.energy }}</td>
+                    <td class="text-center">{{ track.tempo }}</td>
+                    <td class="text-center">{{ track.valence }}</td>
                 </tr>
                 {% empty %}
                     <p>No tracks in the playlist.</p>

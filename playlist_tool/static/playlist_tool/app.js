@@ -54,10 +54,11 @@ function displayTracks(tracks) {
         <table class="table table-striped align-middle">
             <thead>
                 <tr>
-                    <th>Rank</th>
+                    <th class="text-center">Rank</th>
                     <th>Track</th>
                     <th>Artist</th>
                     <th>Album</th>
+                    <th class="text-center">Popularity<br>(0-100)</th>
                 </tr>
             </thead>
             <tbody>
@@ -66,7 +67,7 @@ function displayTracks(tracks) {
     tracks.forEach((track, index) => {
         html += `
             <tr>
-                <td>${index + 1}</td>
+                <td class="text-center">${index + 1}</td>
                 <td>
                     <a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="${track.external_urls.spotify}" target="_blank">${track.name}</a>
                 </td>
@@ -76,6 +77,7 @@ function displayTracks(tracks) {
                 <td>
                     <a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="${track.album.external_urls.spotify}" target="_blank">${track.album.name}</a>
                 </td>
+                <td class="text-center">${track.popularity}</td>
             </tr>
         `;
     });
