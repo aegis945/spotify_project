@@ -28,6 +28,12 @@ class Playlist(models.Model):
 class Artist(models.Model):
     name = models.CharField(max_length=255)
     artist_url = models.URLField(max_length=250, null=True, blank=True)
+    
+    class Meta:
+        ordering =["name"]
+        
+    def __str__(self) -> str:
+        return self.name
 
 class Track(models.Model):
     playlist = models.ForeignKey(Playlist, on_delete=models.CASCADE, related_name="tracks")
