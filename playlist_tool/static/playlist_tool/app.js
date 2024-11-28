@@ -67,9 +67,15 @@ function displayTracks(tracks) {
         html += `
             <tr>
                 <td>${index + 1}</td>
-                <td>${track.name}</td>
-                <td>${track.artists.map(artist => artist.name).join(", ")}</td>
-                <td>${track.album.name}</td>
+                <td>
+                    <a href="${track.external_urls.spotify}" target="_blank">${track.name}</a>
+                </td>
+                <td>
+                    ${track.artists.map(artist => `<a href="${artist.external_urls.spotify}" target="_blank">${artist.name}</a>`).join(", ")}
+                </td>
+                <td>
+                    <a href="${track.album.external_urls.spotify}" target="_blank">${track.album.name}</a>
+                </td>
             </tr>
         `;
     });
