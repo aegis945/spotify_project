@@ -2,7 +2,7 @@
 {% block title %}Home | Spotify Playlist Tool{% endblock %}
 
 {% block body %}
-    <div class="text-center mt-5">
+    <div class="text-center my-5">
         <h1>Welcome to Spotify Playlist Tool</h1>
         <p class="lead">Create and analyze playlists with ease!</p>
         {% if access_token %}
@@ -10,5 +10,25 @@
         {% else %}
             <a href="{% url 'playlist_tool:spotify_login' %}" class="btn btn-success btn-lg mt-3">Get Started</a>
         {% endif %}
+    </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-4 my-2">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">View Your Top Tracks</h5>
+                        <p class="card-text">See your top 50 tracks across three different time ranges. Discover your evolving music preferences over time!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 my-2">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Analyze Tracks In Playlists</h5>
+                        <p class="card-text">Get detailed analytics on your playlists and explore detailed metrics for tracks in your playlists, including danceability, energy, tempo, and valence.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
