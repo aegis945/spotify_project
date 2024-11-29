@@ -157,7 +157,7 @@ def fetch_tracks(request, playlist_id):
             for artist_data in track_info["artists"]:
                 artist, created = Artist.objects.update_or_create(
                     name=artist_data["name"],
-                    artist_url=artist_data["external_urls"]["spotify"]
+                    defaults={"artist_url": artist_data["external_urls"]["spotify"]}
                 )
                 artists.append(artist)
                 
@@ -166,8 +166,6 @@ def fetch_tracks(request, playlist_id):
                 track_id=track_info["id"],
                 defaults={
                     "name": track_info["name"],
-                    "artist": ", ".join(artist["name"] for artist in track_info["artists"]),
-                    "artist_url": track_info["artists"][0]["external_urls"]["spotify"],
                     "spotify_url": track_info["external_urls"]["spotify"],
                     "popularity": track_info["popularity"],
                 }
