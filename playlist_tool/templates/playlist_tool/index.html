@@ -6,9 +6,9 @@
         <h1>Welcome to Spotify Playlist Tool</h1>
         <p class="lead">Create and analyze playlists with ease!</p>
         {% if access_token %}
-            <a href="{% url 'playlist_tool:profile' %}" class="btn btn-success btn-lg mt-3">View Your Playlists</a>
+            <a href="{% url 'playlist_tool:profile' %}" class="btn btn-primary btn-lg mt-3">View Your Playlists</a>
         {% else %}
-            <a href="{% url 'playlist_tool:spotify_login' %}" class="btn btn-success btn-lg mt-3">Get Started</a>
+            <a href="{% url 'playlist_tool:spotify_login' %}" class="btn btn-primary btn-lg mt-3">Get Started</a>
         {% endif %}
     </div>
     <div class="container">
@@ -16,7 +16,7 @@
             <div class="col-md-4 my-2">
                 <div class="card h-100">
                     <div class="card-body">
-                        <h5 class="card-title">View Your Top Artists</h5>
+                        <a class="nav-link link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{% url 'playlist_tool:top_artists' %}"><h5 class="card-title">View Your Top Artists</h5></a>
                         <p class="card-text">See your top artists across three different time ranges. Discover your evolving music preferences over time!</p>
                     </div>
                 </div>
@@ -24,7 +24,7 @@
             <div class="col-md-4 my-2">
                 <div class="card h-100">
                     <div class="card-body">
-                        <h5 class="card-title">View Your Top Tracks</h5>
+                        <a class="nav-link link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{% url 'playlist_tool:top_tracks' %}"><h5 class="card-title">View Your Top Tracks</h5></a>
                         <p class="card-text">Explore your top artists across three different time ranges. See which artists shape your musical taste over time!</p>
                     </div>
                 </div>
@@ -32,7 +32,7 @@
             <div class="col-md-4 my-2">
                 <div class="card h-100">
                     <div class="card-body">
-                        <h5 class="card-title">Analyze Tracks In Playlists</h5>
+                        <a class="nav-link link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{% url 'playlist_tool:profile' %}"><h5 class="card-title">Analyze Tracks In Playlists</h5></a>
                         <p class="card-text">Get detailed analytics on your playlists and explore detailed metrics for tracks in your playlists, including danceability, energy, tempo, and valence.</p>
                     </div>
                 </div>
