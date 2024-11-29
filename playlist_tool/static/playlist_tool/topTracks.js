@@ -8,9 +8,9 @@ function handleTimeButtonClicks() {
     const timeButtons = document.querySelectorAll(".btn-group button");
 
     const timeRangeMapping = {
-        short_term: "Top 50 Tracks from the last 4 weeks",
-        medium_term: "Top 50 Tracks from the last 6 months",
-        long_term: "Top 50 Tracks from the past year"
+        short_term: "Top Tracks from the last 4 weeks",
+        medium_term: "Top Tracks from the last 6 months",
+        long_term: "Top Tracks from the past year"
     };
 
     timeButtons.forEach(button => {
@@ -33,7 +33,7 @@ function loadTopTracks(timeRange) {
                             <span class="visually-hidden">Loading...</span>
                           </div>`;
 
-    fetch(`/fetch-top-tracks/?time_range=${timeRange}&limit=50`)
+    fetch(`/fetch_top_tracks/?time_range=${timeRange}&limit=50`)
         .then(response => response.json())
         .then(data => {
             if (data.items) {
@@ -96,5 +96,5 @@ function setActiveButton(activeButton) {
 
 function updateHeading(timeRange, timeRangeMapping) {
     const heading = document.querySelector("#top-heading");
-    heading.textContent = timeRangeMapping[timeRange] || "Top 50 Tracks";
+    heading.textContent = timeRangeMapping[timeRange] || "Top Tracks";
 }

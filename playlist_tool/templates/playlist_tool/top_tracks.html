@@ -1,10 +1,10 @@
 {% extends "playlist_tool/layout.html" %}
 {% load static %}
-{% block title %}Top 50 Tracks{% endblock %}
+{% block title %}Top Tracks{% endblock %}
 
 {% block body %}
 <div class="container mt-5">
-    <h1 id="top-heading" class="mb-3">Top 50 Tracks from the last 4 weeks</h1>
+    <h1 id="top-heading" class="mb-3">Top Tracks from the last 4 weeks</h1>
     <div class="btn-group" role="group" aria-label="Time Range">
         <button type="button" class="btn btn-outline-primary" id="short_term">Short Term</button>
         <button type="button" class="btn btn-outline-primary" id="medium_term">Medium Term</button>
@@ -14,6 +14,6 @@
     </div>
 </div>
     {% block script %}
-        <script src="{% static 'playlist_tool/app.js' %}"></script>
+        <script src="{% static 'playlist_tool/topTracks.js' %}"></script>
     {% endblock %}
 {% endblock %}
