@@ -1,0 +1,19 @@
+{% extends "playlist_tool/layout.html" %}
+{% load static %}
+{% block title %}Top Artists{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1 id="top-heading" class="mb-3">Top Artists from the last 4 weeks</h1>
+    <div class="btn-group" role="group" aria-label="Time Range">
+        <button type="button" class="btn btn-outline-primary" id="short_term">Short Term</button>
+        <button type="button" class="btn btn-outline-primary" id="medium_term">Medium Term</button>
+        <button type="button" class="btn btn-outline-primary" id="long_term">Long Term</button>
+    </div>
+    <div id="artists-container" class="table-responsive mt-4">
+    </div>
+</div>
+    {% block script %}
+        <script src="{% static 'playlist_tool/topArtists.js' %}"></script>
+    {% endblock %}
+{% endblock %}

@@ -25,7 +25,10 @@
                     {% endif %}
                     {% if request.session.access_token %}
                         <li class="nav-item">
-                            <a class="nav-link link-success link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{% url 'playlist_tool:top_tracks' %}">Your Top 50 Tracks</a>
+                            <a class="nav-link link-success link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{% url 'playlist_tool:top_artists' %}">Top Artists</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link link-success link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{% url 'playlist_tool:top_tracks' %}">Top Tracks</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link link-success link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{% url 'playlist_tool:profile' %}">Profile</a>

@@ -215,7 +215,7 @@ def fetch_top_tracks(request):
     if not access_token:
         return redirect("playlist_tool:spotify_login")
     
-    time_range = request.GET.get("time_range", "medium_term")
+    time_range = request.GET.get("time_range", "short_term")
     limit = request.GET.get("limit", 50)
     
     top_tracks_url = f"https://api.spotify.com/v1/me/top/tracks"
@@ -229,8 +229,37 @@ def fetch_top_tracks(request):
     
     if response.status_code == 200:
         return JsonResponse(response.json())
+    elif response.status_code == 401:
+        return redirect("playlist_tool:spotify_login")
     else:
         return JsonResponse(response.json(), status=response.status_code)
     
 def top_tracks(request):
     return render(request, "playlist_tool/top_tracks.html")
+
+def fetch_top_artists(request):
+    access_token = request.session.get("access_token")
+    if not access_token:
+        return redirect("playlist_tool:spotify_login")
+    
+    time_range = request.GET.get("time_range", "short_term")
+    limit = request.GET.get("limit", 50)
+    
+    top_artists_url = f"https://api.spotify.com/v1/me/top/artists"
+    headers = {"Authorization": f"Bearer {access_token}"}
+    params = {
+        "time_range": time_range,
+        "limit": limit,
+    }
+    
+    response = requests.get(top_artists_url, headers=headers, params=params)
+    
+    if response.status_code == 200:
+        return JsonResponse(response.json())
+    elif response.status_code == 401:
+        return redirect("playlist_tool:spotify_login")
+    else:
+        return JsonResponse(response.json(), status=response.status_code)
+    
+def top_artists(request):
+    return render(request, "playlist_tool/top_artists.html")
