@@ -9,6 +9,7 @@
         <table class="table table-striped align-middle mt-4">
             <thead>
                 <tr>
+                    <th>#</th>
                     <th>Track</th>
                     <th>Artist</th>
                     <th class="text-center">Popularity<br> (0-100)</th>
@@ -21,6 +22,7 @@
             <tbody>
                 {% for track in page_obj.object_list %}
                 <tr>
+                    <td>{{ page_obj.start_index|add:forloop.counter0 }}</td>
                     {% if track.spotify_url %}
                         <td><a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{{ track.spotify_url }}" target="_blank">{{ track.name }}</a></td>
                     {% else %}
