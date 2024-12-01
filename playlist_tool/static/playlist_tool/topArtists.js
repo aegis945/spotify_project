@@ -69,7 +69,8 @@ function displayArtists(artists) {
             <tr>
                 <td class="text-center">${index + 1}</td>
                 <td>
-                    <a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="${artist.external_urls.spotify}" target="_blank">${artist.name}</a>
+                    <a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="${artist.external_urls.spotify}" target="_blank"><img src="${artist.images[0].url}" alt="${artist.name} Image" style="width: 40px; height: 40px; margin-right: 8px; border-radius: 50%;">
+                    ${artist.name}</a>
                 </td>
                 <td>${artist.followers.total}</td>
                 <td>${artist.popularity}</td>
