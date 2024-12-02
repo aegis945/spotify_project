@@ -60,11 +60,11 @@
         };
     }
 
-    const topPopularity = getTopNTracks(data.popularity, data.track_names, 30);
-    const topDanceability = getTopNTracks(data.danceability, data.track_names, 30);
-    const topEnergy = getTopNTracks(data.energy, data.track_names, 30);
-    const topTempo = getTopNTracks(data.tempo, data.track_names, 30);
-    const topValence = getTopNTracks(data.valence, data.track_names, 30);
+    const topPopularity = getTopNTracks(data.popularity, data.track_names, 50);
+    const topDanceability = getTopNTracks(data.danceability, data.track_names, 50);
+    const topEnergy = getTopNTracks(data.energy, data.track_names, 50);
+    const topTempo = getTopNTracks(data.tempo, data.track_names, 50);
+    const topValence = getTopNTracks(data.valence, data.track_names, 50);
 
     function getGradient(ctx, colorStart, colorEnd) {
         var gradient = ctx.createLinearGradient(0, 0, 0, 400);
