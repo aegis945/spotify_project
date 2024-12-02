@@ -1,0 +1,122 @@
+{% extends "playlist_tool/layout.html" %}
+{% load static %}
+{% block title %}Data Visualization | {{ playlist.name }}{% endblock %}
+
+{% block body %}
+<a href="{% url 'playlist_tool:profile' %}" class="btn btn-primary">
+    <i class="bi bi-arrow-left me-2"></i>Analyze another playlist
+</a>
+<div class="mt-5">
+    <h1>{{ playlist.name }} - Data Visualization</h1>
+
+    <div class="chart-container my-5">
+        <canvas id="popularityChart"></canvas>
+    </div>
+
+    <div class="chart-container my-5">
+        <canvas id="danceabilityChart"></canvas>
+    </div>
+
+    <div class="chart-container my-5">
+        <canvas id="energyChart"></canvas>
+    </div>
+
+    <div class="chart-container my-5">
+        <canvas id="tempoChart"></canvas>
+    </div>
+
+    <div class="chart-container my-5">
+        <canvas id="valenceChart"></canvas>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+<script>
+    const data = {{ data|safe }};
+    
+    function truncateTrackName(trackName, maxLength = 25) {
+        if (trackName.length > maxLength) {
+            return trackName.substring(0, maxLength) + "...";
+        }
+        return trackName;
+    }
+
+    function getTopNTracks(valueArray, trackNames, topN) {
+        let combinedData = valueArray.map((value, index) => ({
+            value,
+            trackName: trackNames[index]
+        }));
+
+        combinedData.sort((a, b) => b.value - a.value);
+
+        let topNData = combinedData.slice(0, topN);
+        let sortedValues = topNData.map(item => item.value);
+        let sortedTrackNames = topNData.map(item => truncateTrackName(item.trackName));
+
+        return {
+            sortedValues: sortedValues,
+            sortedTrackNames: sortedTrackNames
+        };
+    }
+
+    const topPopularity = getTopNTracks(data.popularity, data.track_names, 30);
+    const topDanceability = getTopNTracks(data.danceability, data.track_names, 30);
+    const topEnergy = getTopNTracks(data.energy, data.track_names, 30);
+    const topTempo = getTopNTracks(data.tempo, data.track_names, 30);
+    const topValence = getTopNTracks(data.valence, data.track_names, 30);
+
+    function getGradient(ctx, colorStart, colorEnd) {
+        var gradient = ctx.createLinearGradient(0, 0, 0, 400);
+        gradient.addColorStop(0, colorStart);
+        gradient.addColorStop(1, colorEnd);
+        return gradient;
+    }
+
+    function createChart(chartId, label, dataSet, labelName, colorStart, colorEnd) {
+        var ctx = document.getElementById(chartId).getContext('2d');
+        return new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: dataSet.sortedTrackNames,
+                datasets: [{
+                    label: labelName,
+                    data: dataSet.sortedValues,
+                    backgroundColor: getGradient(ctx, colorStart, colorEnd),
+                    borderColor: colorEnd,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    datalabels: {
+                        color: 'black',
+                        font: {
+                            weight: 'bold',
+                            size: 14
+                        },
+                    }
+                },
+                animation: {
+                    duration: 1500,
+                    easing: 'easeOutBounce'
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
+    let popularityChart = createChart("popularityChart", "Popularity", topPopularity, "Popularity", 'rgba(255, 99, 132, 0.2)', 'rgba(255, 99, 132, 1)');
+    let danceabilityChart = createChart("danceabilityChart", "Danceability", topDanceability, "Danceability", 'rgba(54, 162, 235, 0.2)', 'rgba(54, 162, 235, 1)');
+    let energyChart = createChart("energyChart", "Energy", topEnergy, "Energy", 'rgba(255, 159, 64, 0.2)', 'rgba(255, 159, 64, 1)');
+    let tempoChart = createChart("tempoChart", "Tempo", topTempo, "Tempo", 'rgba(75, 192, 192, 0.2)', 'rgba(75, 192, 192, 1)');
+    let valenceChart = createChart("valenceChart", "Valence", topValence, "Valence", 'rgba(153, 102, 255, 0.2)', 'rgba(153, 102, 255, 1)');
+
+</script>
+
+{% endblock %}

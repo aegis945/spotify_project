@@ -5,6 +5,7 @@
 {% block body %}
 <div class="mt-5">
     <h1>{{ playlist.name }} - Statistics</h1>
+    <a href="{% url 'playlist_tool:visualize_data' playlist_id=playlist.playlist_id %}" class="btn btn-primary my-3">Visualize data</a>
     <div class="table-responsive">
         <table class="table table-striped align-middle mt-4">
             <thead>
@@ -15,6 +16,7 @@
                     <th class="text-center">Popularity<br> (0-100)</th>
                     <th class="text-center">Danceability</th>
                     <th class="text-center">Energy</th>
+                    <th class="text-center">Instrumentalness</th>
                     <th class="text-center">Tempo</th>
                     <th class="text-center">Valence</th>
                 </tr>
@@ -34,10 +36,11 @@
                         {% endfor %}
                     </td>
                     <td class="text-center">{{ track.popularity }}</td>
-                    <td class="text-center">{{ track.danceability }}</td>
-                    <td class="text-center">{{ track.energy }}</td>
-                    <td class="text-center">{{ track.tempo }}</td>
-                    <td class="text-center">{{ track.valence }}</td>
+                    <td class="text-center">{{ track.danceability|floatformat:3 }}</td>
+                    <td class="text-center">{{ track.energy|floatformat:3 }}</td>
+                    <td class="text-center">{{ track.instrumentalness|floatformat:3 }}</td>
+                    <td class="text-center">{{ track.tempo|floatformat:3 }}</td>
+                    <td class="text-center">{{ track.valence|floatformat:3 }}</td>
                 </tr>
                 {% empty %}
                     <p>No tracks in the playlist.</p>
