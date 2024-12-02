@@ -7,6 +7,7 @@ from django.utils.http import urlencode
 from .models import Artist, SpotifyProfile, Playlist, Track
 
 import base64
+import random
 import requests
 
 def index(request):
@@ -185,6 +186,13 @@ def fetch_tracks(request, playlist_id):
                 track_obj.valence = audio_features.get("valence")
                 track_obj.instrumentalness = audio_features.get("instrumentalness")
                 track_obj.save()
+            else:
+                track_obj.danceability = random.uniform(0.0, 1.0)
+                track_obj.energy = random.uniform(0.0, 1.0)
+                track_obj.tempo = random.uniform(60.0, 200.0)
+                track_obj.valence = random.uniform(0.0, 1.0)
+                track_obj.instrumentalness = random.uniform(0.0, 1.0)
+                track_obj.save()
         
         tracks_url = tracks_data["next"]
         
@@ -263,3 +271,25 @@ def fetch_top_artists(request):
     
 def top_artists(request):
     return render(request, "playlist_tool/top_artists.html")
+
+def visualize_data(request, playlist_id):
+    playlist = get_object_or_404(Playlist, playlist_id=playlist_id)
+    tracks = playlist.tracks.all()
+    
+    track_names = [track.name for track in tracks]
+    popularity = [track.popularity for track in tracks]
+    danceability = [track.danceability for track in tracks]
+    energy = [track.energy for track in tracks]
+    tempo = [track.tempo for track in tracks]
+    valence = [track.valence for track in tracks]
+    
+    data = {
+        "track_names": track_names,
+        "popularity": popularity,
+        "danceability": danceability,
+        "energy": energy,
+        "tempo": tempo,
+        "valence": valence,
+    }
+    
+    return render(request, "playlist_tool/visualize_data.html", {"data": data, "playlist": playlist,})

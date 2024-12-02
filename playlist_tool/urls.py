@@ -15,4 +15,5 @@ urlpatterns = [
     path("top-tracks/", views.top_tracks, name="top_tracks"),
     path("fetch_top_artists/", views.fetch_top_artists, name="fetch_top_artists"),
     path("top-artists/", views.top_artists, name="top_artists"),
+    path('visualize_data/<playlist_id>/', views.visualize_data, name='visualize_data'),
 ]
