@@ -277,6 +277,7 @@ def visualize_data(request, playlist_id):
     tracks = playlist.tracks.all()
     
     track_names = [track.name for track in tracks]
+    artists = [", ".join([artist.name for artist in track.artists.all()]) for track in tracks]  
     popularity = [track.popularity for track in tracks]
     danceability = [track.danceability for track in tracks]
     energy = [track.energy for track in tracks]
@@ -285,6 +286,7 @@ def visualize_data(request, playlist_id):
     
     data = {
         "track_names": track_names,
+        "artists": artists,
         "popularity": popularity,
         "danceability": danceability,
         "energy": energy,

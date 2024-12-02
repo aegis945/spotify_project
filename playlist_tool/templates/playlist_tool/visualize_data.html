@@ -42,10 +42,11 @@
         return trackName;
     }
 
-    function getTopNTracks(valueArray, trackNames, topN) {
+    function getTopNTracks(valueArray, trackNames, artists, topN) {
         let combinedData = valueArray.map((value, index) => ({
             value,
-            trackName: trackNames[index]
+            trackName: trackNames[index],
+            artist: artists[index]
         }));
 
         combinedData.sort((a, b) => b.value - a.value);
@@ -53,18 +54,20 @@
         let topNData = combinedData.slice(0, topN);
         let sortedValues = topNData.map(item => item.value);
         let sortedTrackNames = topNData.map(item => truncateTrackName(item.trackName));
+        let sortedArtists = topNData.map(item => item.artist);
 
         return {
             sortedValues: sortedValues,
-            sortedTrackNames: sortedTrackNames
+            sortedTrackNames: sortedTrackNames,
+            sortedArtists: sortedArtists
         };
     }
 
-    const topPopularity = getTopNTracks(data.popularity, data.track_names, 50);
-    const topDanceability = getTopNTracks(data.danceability, data.track_names, 50);
-    const topEnergy = getTopNTracks(data.energy, data.track_names, 50);
-    const topTempo = getTopNTracks(data.tempo, data.track_names, 50);
-    const topValence = getTopNTracks(data.valence, data.track_names, 50);
+    const topPopularity = getTopNTracks(data.popularity, data.track_names, data.artists, 50);
+    const topDanceability = getTopNTracks(data.danceability, data.track_names, data.artists, 50);
+    const topEnergy = getTopNTracks(data.energy, data.track_names, data.artists, 50);
+    const topTempo = getTopNTracks(data.tempo, data.track_names, data.artists, 50);
+    const topValence = getTopNTracks(data.valence, data.track_names, data.artists, 50);
 
     function getGradient(ctx, colorStart, colorEnd) {
         var gradient = ctx.createLinearGradient(0, 0, 0, 400);
@@ -96,6 +99,16 @@
                             weight: 'bold',
                             size: 14
                         },
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItem) {
+                                let index = tooltipItem[0].dataIndex;
+                                let trackName = dataSet.sortedTrackNames[index];
+                                let artistNames = dataSet.sortedArtists[index];
+                                return trackName + " - " + artistNames;
+                            },
+                        }
                     }
                 },
                 animation: {
