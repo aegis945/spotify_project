@@ -31,7 +31,7 @@ SPOTIFY_CLIENT_ID = env('SPOTIFY_CLIENT_ID')
 SPOTIFY_CLIENT_SECRET = env('SPOTIFY_CLIENT_SECRET')
 SPOTIFY_REDIRECT_URI = env('SPOTIFY_REDIRECT_URI')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 # Application definition
 
@@ -56,6 +56,51 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'spotify_project.urls'
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "simple": {
+            "format": "{levelname}: {message}",
+            "style": "{",
+        },
+        "verbose": {
+            "format": "[{asctime}] {levelname} {name} {message}",
+            "style": "{",
+        },
+    },
+    "handlers": {
+        "console": {
+            "level": "INFO",
+            "class": "logging.StreamHandler",
+            "formatter": "simple",
+        },
+        "file": {
+            "level": "WARNING",
+            "class": "logging.FileHandler",
+            "filename": BASE_DIR / "logs" / "spotify_project.log",
+            "formatter": "verbose",
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console", "file"],
+            "level": "INFO",
+            "propagate": False,
+        },
+        "playlist_tool": {
+            "handlers": ["console", "file"],
+            "level": "DEBUG",
+            "propagate": False,
+        },
+        "root": {
+            "handlers": ["console", "file"],
+            "level": "INFO",
+        },
+    },
+}
+
 
 TEMPLATES = [
     {
