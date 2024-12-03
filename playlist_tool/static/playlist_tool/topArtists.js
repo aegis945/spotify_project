@@ -33,8 +33,13 @@ function loadTopArtists(timeRange) {
                             <span class="visually-hidden">Loading...</span>
                           </div>`;
 
-    fetch(`/fetch_top_artists/?time_range=${timeRange}&limit=50`)
-        .then(response => response.json())
+    fetch(`/fetch_top_artists/?time_range=${encodeURIComponent(timeRange)}&limit=50`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status} - ${response.statusText}`);
+            }
+            return response.json();
+        })
         .then(data => {
             if (data.items) {
                 displayArtists(data.items);
@@ -50,37 +55,72 @@ function loadTopArtists(timeRange) {
 
 function displayArtists(artists) {
     const container = document.querySelector("#artists-container");
-    let html = `
-        <table class="table table-striped align-middle">
-            <thead>
-                <tr>
-                    <th class="text-center">Rank</th>
-                    <th>Artist</th>
-                    <th>Followers</th>
-                    <th>Popularity<br>(0-100)</th>
-                    <th>Genres</th>
-                </tr>
-            </thead>
-            <tbody>
+    container.innerHTML = "";
+
+    const table = document.createElement("table");
+    table.classList.add("table", "table-striped", "align-middle");
+
+    const thead = document.createElement("thead");
+    thead.innerHTML = `
+        <tr>
+            <th scope="col" class="text-center">Rank</th>
+            <th scope="col">Artist</th>
+            <th scope="col">Followers</th>
+            <th scope="col">Popularity<br>(0-100)</th>
+            <th scope="col">Genres</th>
+        </tr>
     `;
+    table.appendChild(thead);
+
+    const tbody = document.createElement("tbody");
 
     artists.forEach((artist, index) => {
-        html += `
-            <tr>
-                <td class="text-center">${index + 1}</td>
-                <td>
-                    <a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="${artist.external_urls.spotify}" target="_blank"><img src="${artist.images[0].url}" alt="${artist.name} Image" style="width: 40px; height: 40px; margin-right: 8px; border-radius: 50%;">
-                    ${artist.name}</a>
-                </td>
-                <td>${artist.followers.total}</td>
-                <td>${artist.popularity}</td>
-                <td>${artist.genres.map(genre => genre.split(" ").map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(" ")).join(", ")}</td>
-            </tr>
-        `;
+        const row = document.createElement("tr");
+
+        const rankCell = document.createElement("td");
+        rankCell.classList.add("text-center");
+        rankCell.textContent = index + 1;
+        row.appendChild(rankCell);
+
+        const artistCell = document.createElement("td");
+        const artistLink = document.createElement("a");
+        artistLink.href = artist.external_urls?.spotify || "#";
+        artistLink.target = "_blank";
+        artistLink.classList.add("link-primary");
+        artistLink.textContent = artist.name || "Unknown Artist";
+
+        if (artist.images?.[0]?.url) {
+            const artistImage = document.createElement("img");
+            artistImage.src = artist.images[0].url;
+            artistImage.alt = artist.name || "No Image Available";
+            artistImage.style = "width: 40px; height: 40px; margin-right: 8px; border-radius: 50%;";
+            artistCell.appendChild(artistImage);
+        }
+        artistCell.appendChild(artistLink);
+        row.appendChild(artistCell);
+
+        const followersCell = document.createElement("td");
+        followersCell.textContent = artist.followers?.total?.toLocaleString() || "N/A";
+        row.appendChild(followersCell);
+
+        const popularityCell = document.createElement("td");
+        popularityCell.textContent = artist.popularity ?? "N/A";
+        row.appendChild(popularityCell);
+
+        const genresCell = document.createElement("td");
+        genresCell.textContent = (artist.genres || []).map((genre) =>
+            genre
+                .split(" ")
+                .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+                .join(" ")
+        ).join(", ") || "N/A";
+        row.appendChild(genresCell);
+
+        tbody.appendChild(row);
     });
 
-    html += "</tbody></table>";
-    container.innerHTML = html;
+    table.appendChild(tbody);
+    container.appendChild(table);
 }
 
 function setActiveButton(activeButton) {
